@@ -16,5 +16,13 @@
     {% endif %}
   </h1>
   {% block content %}{% endblock content %}
+
+  {% if user.is_authenticated %}
+    <hr>
+    <form action="{% url 'accounts:logout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit">Вихід</button>
+    </form>
+  {% endif %}
 </body>
 </html>
