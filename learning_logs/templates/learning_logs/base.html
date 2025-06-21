@@ -1,29 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Learning Log</title>
-</head>
-<body>
-  <h1>
-    <a href="{% url 'learning_logs:index' %}">Журнал навчання</a> |
-    <a href="{% url 'learning_logs:topics' %}">Теми</a> |
-    {% if user.is_authenticated %}
-      {{ user.username }}
-    {% else %}
-      <a href="{% url 'accounts:login' %}">Вхід</a> |
-      <a href="{% url 'accounts:register' %}">Реєстрація</a>
-    {% endif %}
-  </h1>
-  {% block content %}{% endblock content %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learning Log</title>
 
-  {% if user.is_authenticated %}
-    <hr>
-    <form action="{% url 'accounts:logout' %}" method="post">
-      {% csrf_token %}
-      <button type="submit">Вихід</button>
-    </form>
-  {% endif %}
-</body>
+    {% load django_bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'learning_logs:index' %}">Журнал навчання</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button> 
+        
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'learning_logs:topics' %}">Теми</a>
+            </li> 
+          </ul> 
+          
+          <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+            {% if user.is_authenticated %}
+              <li class="nav-item">
+                <span class="navbar-text me-2">{{ user.username }}</span>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts:login' %}">Вхід</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts:register' %}">Реєстрація</a>
+              </li>
+            {% endif %}
+          </ul>
+
+          {% if user.is_authenticated %}
+            <form action="{% url 'accounts:logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-outline-secondary btn-sm">Вихід</button>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+    
+  </body>
 </html>
