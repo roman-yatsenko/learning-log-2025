@@ -12,7 +12,8 @@
     {% if user.is_authenticated %}
       {{ user.username }}
     {% else %}
-      <a href="{% url 'accounts:login' %}">Вхід</a>
+      <a href="{% url 'accounts:login' %}">Вхід</a> |
+      <a href="{% url 'accounts:register' %}">Реєстрація</a>
     {% endif %}
   </h1>
   {% block content %}{% endblock content %}
