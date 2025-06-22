@@ -1,24 +1,28 @@
 {% extends "learning_logs/base.html" %}
 
-{% block content %}
+{% block page_header %}
   <h2>Тема: {{ topic }}</h2>
+{% endblock page_header %}
 
-  <h3>Дописи:</h3>
+{% block content %}
+
   <p>
     <a href="{% url 'learning_logs:new_entry' topic.id %}">Додати новий допис</a>
   </p>
 
-  <ul>
-    {% for entry in entries %}
-      <li>
-        <p>{{ entry.date_added|date:"d.m.Y H:i" }}</p>
-        <p>{{ entry.text|linebreaks }}</p>
-        <p>
+  {% for entry in entries %}
+    <div class="card mb-3">
+      <h4 class="card-header">
+        {{ entry.date_added|date:"d.m.Y H:i" }}
+        <small>
           <a href="{% url 'learning_logs:edit_entry' entry.id %}">Змінити допис</a>
-        </p>
-      </li>
-    {% empty %}
-      <li>До теми ще не додано дописів.</li>
-    {% endfor %}
-  </ul>
+        </small>
+      </h4>
+      <div class="card-body">
+        {{ entry.text|linebreaks }}
+      </div>
+    </div>
+  {% empty %}
+    <p>До теми ще не додано дописів.</p>
+  {% endfor %}
 {% endblock content %}
